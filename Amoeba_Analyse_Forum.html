@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amoeba — Analyse & Perspectives 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a08;
+    --surface: #0a1410;
+    --surface2: #0f1f18;
+    --border: #173025;
+    --accent: #4ade80;
+    --accent2: #22d3ee;
+    --purple: #c084fc;
+    --warn: #fbbf24;
+    --danger: #f87171;
+    --text: #cbd5e1;
+    --heading: #f0fdf4;
+    --muted: #3d6b50;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Plus Jakarta Sans',sans-serif; font-size:14.5px; line-height:1.7; padding:28px 18px 60px; }
+  .wrap { max-width:900px; margin:0 auto; }
+
+  /* HERO */
+  .hero { background:linear-gradient(135deg,#0a1410,#091a12); border:1px solid var(--border); border-top:3px solid var(--accent); border-radius:14px; padding:26px 28px 22px; margin-bottom:24px; position:relative; overflow:hidden; }
+  .hero::before { content:'🍄'; position:absolute; right:28px; top:50%; transform:translateY(-50%); font-size:80px; opacity:0.06; pointer-events:none; }
+  .hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.28); border-radius:20px; padding:4px 14px; font-size:11px; font-weight:700; color:var(--accent); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1 { font-size:23px; font-weight:800; color:var(--heading); line-height:1.25; margin-bottom:10px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:14px; font-size:12px; color:var(--muted); }
+
+  /* ALERT */
+  .alert-green { background:rgba(74,222,128,0.06); border:1px solid rgba(74,222,128,0.28); border-radius:12px; padding:18px 20px; margin-bottom:16px; }
+  .alert-green .at { font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
+  .alert-green p { color:#86efac; font-size:13.5px; margin-bottom:6px; }
+  .alert-green p:last-child { margin-bottom:0; }
+
+  .alert-warn { background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.28); border-radius:12px; padding:18px 20px; margin-bottom:16px; }
+  .alert-warn .at { font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--danger); margin-bottom:8px; }
+  .alert-warn p { color:#fca5a5; font-size:13.5px; margin-bottom:6px; }
+  .alert-warn p:last-child { margin-bottom:0; }
+
+  strong { color:var(--heading); font-weight:600; }
+
+  /* SLBL */
+  .slbl { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--accent); margin-bottom:14px; display:flex; align-items:center; gap:10px; }
+  .slbl::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  /* KPI */
+  .kg { display:grid; grid-template-columns:repeat(auto-fill,minmax(185px,1fr)); gap:10px; margin-bottom:28px; }
+  .kpi { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 16px; }
+  .kl { font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
+  .kv { font-family:'JetBrains Mono',monospace; font-size:19px; font-weight:600; color:var(--heading); margin-bottom:3px; }
+  .kd { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; }
+  .kd.up{color:var(--accent);} .kd.warn{color:var(--warn);} .kd.blue{color:var(--accent2);} .kd.red{color:var(--danger);}
+  .ks { font-size:10.5px; color:var(--muted); margin-top:2px; }
+
+  /* CARD */
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px 22px; margin-bottom:12px; }
+  .card h3 { font-size:14.5px; font-weight:700; color:var(--heading); margin-bottom:11px; display:flex; align-items:center; gap:9px; }
+  .card h3 .ic { width:26px; height:26px; border-radius:6px; background:rgba(74,222,128,0.12); display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; }
+  .card p { color:#8faabf; margin-bottom:9px; font-size:14px; }
+  .card p:last-child { margin-bottom:0; }
+  .hl{color:var(--accent);font-weight:600;} .hlb{color:var(--accent2);font-weight:600;} .hlw{color:var(--warn);font-weight:600;} .hlr{color:var(--danger);font-weight:600;} .hlp{color:var(--purple);font-weight:600;}
+
+  /* TABLE */
+  .dt { width:100%; border-collapse:collapse; font-size:13px; margin:10px 0; }
+  .dt th { text-align:left; padding:8px 10px; background:var(--surface2); color:var(--muted); font-size:10.5px; text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+  .dt td { padding:8px 10px; border-bottom:1px solid var(--border); color:#8faabf; }
+  .dt tr:last-child td { border-bottom:none; }
+  .dt td:first-child { color:var(--heading); font-weight:600; }
+  .dt td.g{color:var(--accent);font-family:'JetBrains Mono',monospace;font-weight:700;}
+  .dt td.w{color:var(--warn);font-family:'JetBrains Mono',monospace;font-weight:700;}
+  .dt td.b{color:var(--accent2);font-family:'JetBrains Mono',monospace;font-weight:700;}
+  .dt td.r{color:var(--danger);font-family:'JetBrains Mono',monospace;font-weight:700;}
+
+  /* LIST */
+  .ul { list-style:none; padding:0; }
+  .ul li { padding:4px 0 4px 20px; position:relative; color:#8faabf; font-size:14px; }
+  .ul li::before { content:'→'; position:absolute; left:0; color:var(--accent); font-weight:700; }
+  .ul li.risk::before { content:'⚠'; color:var(--danger); font-size:11px; top:6px; }
+  .ul li.neu::before { content:'◆'; color:var(--accent2); font-size:9px; top:7px; }
+
+  /* FIBO */
+  .frow { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid var(--border); }
+  .frow:last-child { border-bottom:none; }
+  .flvl { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); width:55px; }
+  .fprice { font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:600; color:var(--heading); width:65px; }
+  .fbar { flex:1; height:4px; background:var(--surface2); border-radius:2px; overflow:hidden; }
+  .fbar-fill { height:100%; border-radius:2px; }
+  .ftag { width:110px; text-align:right; }
+
+  /* TAG */
+  .tag { display:inline-block; padding:2px 9px; border-radius:20px; font-size:11px; font-weight:700; }
+  .tg{background:rgba(74,222,128,0.12);color:var(--accent);}
+  .tb{background:rgba(34,211,238,0.12);color:var(--accent2);}
+  .tw{background:rgba(251,191,36,0.12);color:var(--warn);}
+  .tr{background:rgba(248,113,113,0.12);color:var(--danger);}
+  .tp{background:rgba(192,132,252,0.12);color:var(--purple);}
+
+  /* TIMELINE */
+  .tl { position:relative; padding-left:20px; }
+  .tl::before { content:''; position:absolute; left:6px; top:6px; bottom:6px; width:2px; background:var(--border); }
+  .tli { position:relative; padding-bottom:16px; }
+  .tli:last-child { padding-bottom:0; }
+  .tld { position:absolute; left:-18px; top:5px; width:10px; height:10px; border-radius:50%; border:2px solid var(--accent); background:var(--bg); }
+  .tld.b{border-color:var(--accent2);} .tld.w{border-color:var(--warn);} .tld.r{border-color:var(--danger);}
+  .tldate { font-size:11px; font-family:'JetBrains Mono',monospace; color:var(--accent); font-weight:600; margin-bottom:2px; }
+  .tllbl { font-size:13.5px; color:var(--heading); font-weight:600; }
+  .tldesc { font-size:12.5px; color:var(--muted); margin-top:2px; }
+
+  /* PERSPECTIVES */
+  .pg { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:12px; }
+  @media(max-width:600px){ .pg{grid-template-columns:1fr;} }
+  .pc { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .pc .hz { font-size:10.5px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px; }
+  .pc h4 { font-size:13px; color:var(--heading); margin-bottom:6px; }
+  .pc ul { list-style:none; padding:0; }
+  .pc ul li { font-size:12.5px; color:var(--muted); padding:3px 0 3px 12px; position:relative; }
+  .pc ul li::before { content:'·'; position:absolute; left:0; font-weight:900; font-size:16px; top:-1px; }
+
+  /* VERDICT */
+  .verdict { background:linear-gradient(135deg,rgba(74,222,128,0.05),rgba(34,211,238,0.03)); border:1px solid rgba(74,222,128,0.2); border-radius:12px; padding:22px; }
+  .verdict .vt { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+  .verdict p { color:#8faabf; margin-bottom:9px; font-size:14px; }
+  .verdict p:last-child { margin-bottom:0; }
+  .verdict .conclu { font-size:14.5px; font-weight:600; color:var(--heading); border-top:1px solid var(--border); padding-top:13px; margin-top:13px; }
+
+  .gap { height:26px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">🌿 Analyse Forum · ALMIB · Euronext Growth · PEA-PME</div>
+    <h1>Amoéba — Analyse Fondamentale & Technique<br>+ Perspectives CT / MT / LT</h1>
+    <div class="hero-meta">
+      <span>📅 26 février 2026</span>
+      <span>💶 Cours ~1,010 € (-3,07%)</span>
+      <span>🍄 Biocontrôle & cosmétique — AXPERA / TIAGAN</span>
+      <span>⚠️ NPC — pas un conseil en investissement</span>
+    </div>
+  </div>
+
+  <!-- ALERT AMM -->
+  <div class="alert-green">
+    <div class="at">🌱 Événement imminent — AMM France AXPERA · Mars 2026</div>
+    <p><strong>L'ANSES a initié la phase conclusive de son évaluation le 23 février 2026.</strong> La phase de commentaires se clôture le <strong>6 mars 2026</strong>, suivie de la signature et publication officielle de l'AMM. <span style="color:#dcfce7;font-weight:600">Aucun élément ne s'oppose à la délivrance de l'AMM en 2026</span> selon Amoéba. La France est État rapporteur de zone → son AMM débloque ensuite les 8 autres pays européens ciblés.</p>
+    <p>Parallèlement, <strong>Koppert a lancé la marque TIAGAN</strong> au SIVAL Innovation 2026 (médaille d'or) pour remplacer AXPERA sur les usages viticoles — signal fort de la conviction du distributeur dans le produit.</p>
+  </div>
+
+  <!-- KPIs -->
+  <div class="slbl">Chiffres clés — Exercice 2025 (audités)</div>
+  <div class="kg">
+    <div class="kpi">
+      <div class="kl">Chiffre d'affaires 2025</div>
+      <div class="kv">0 €</div>
+      <div class="kd warn">Pré-commercial</div>
+      <div class="ks">premier CA attendu en 2026</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">Perte nette 2025</div>
+      <div class="kv">-8,3 M€</div>
+      <div class="kd warn">cash-burn ~7 M€/an</div>
+      <div class="ks">en baisse vs 2024</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">Trésorerie (31/12/25)</div>
+      <div class="kv">4,7 M€</div>
+      <div class="kd up">vs 459 k€ fin 2024</div>
+      <div class="ks">augmentation capital juil. 2025</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">Capitaux propres</div>
+      <div class="kv">-5,4 M€</div>
+      <div class="kd red">Négatifs</div>
+      <div class="ks">vs -10,4 M€ fin 2024</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">Dettes financières</div>
+      <div class="kv">12,2 M€</div>
+      <div class="kd red">obligations Nice&Green</div>
+      <div class="ks">11,4 M€ envers actionnaire ref.</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">Continuité exploitation</div>
+      <div class="kv">Fin 2026</div>
+      <div class="kd warn">soutien Nice & Green</div>
+      <div class="ks">⚠️ horizon limité</div>
+    </div>
+  </div>
+
+  <!-- PRÉSENTATION -->
+  <div class="gap"></div>
+  <div class="slbl">Présentation — qui est Amoéba ?</div>
+  <div class="card">
+    <h3><span class="ic">🔬</span> La greentech lyonnaise qui exploite les amibes pour le biocontrôle</h3>
+    <p>Fondée en 2010 à Chassieu (Lyon), <strong>Amoéba est la seule société au monde capable d'exploiter à l'échelle industrielle des amibes</strong> (organismes unicellulaires naturels) pour créer des solutions fongicides biologiques. Sa technologie brevetée ouvre deux marchés complémentaires :</p>
+    <table class="dt">
+      <tr><th>Segment</th><th>Produit</th><th>Statut</th><th>Partenaire</th></tr>
+      <tr><td>Biocontrôle</td><td style="color:#8faabf;font-size:12px">AXPERA / TIAGAN — fongicide biologique (mildiou, oïdium…)</td><td class="g">AMM US ✓ · France imminente</td><td style="color:#8faabf;font-size:12px">Koppert + Syngenta</td></tr>
+      <tr><td>Cosmétique</td><td style="color:#8faabf;font-size:12px">Ingrédient actif naturel (liste INCI mondiale)</td><td class="b">Commercialisable sans AMM en EU/US</td><td style="color:#8faabf;font-size:12px">Oriental Beauty Valley (Chine)</td></tr>
+    </table>
+    <p style="margin-top:8px">L'amibe produite est un <strong>organisme naturel non-OGM</strong>, sans résidu chimique, qui agit comme un prédateur naturel des champignons pathogènes. En agriculture, c'est une réponse directe aux besoins de réduction du cuivre et des fongicides de synthèse — <span class="hl">le marché du biocontrôle mondial est estimé à +12-15 Md$ d'ici 2030.</span></p>
+  </div>
+
+  <!-- AVANCÉES RÉGLEMENTAIRES -->
+  <div class="gap"></div>
+  <div class="slbl">Avancées réglementaires & commerciales 2025-2026</div>
+  <div class="card">
+    <h3><span class="ic">📋</span> Un socle réglementaire quasi-complet — le tournant commercial approche</h3>
+    <table class="dt">
+      <tr><th>Étape réglementaire</th><th>Zone</th><th>Statut</th></tr>
+      <tr><td>Approbation substance active EFSA</td><td style="color:#8faabf">Europe</td><td class="g">✅ Obtenu 2024</td></tr>
+      <tr><td>AMM AXPERA NOA + GREEN (US EPA)</td><td style="color:#8faabf">États-Unis</td><td class="g">✅ Obtenu oct. 2025</td></tr>
+      <tr><td>AMM d'urgence 120 jours (vigne)</td><td style="color:#8faabf">France</td><td class="g">✅ Obtenu avril 2025</td></tr>
+      <tr><td>AMM définitive AXPERA France (zRMS)</td><td style="color:#8faabf">France → 9 pays EU</td><td class="w">⏳ Phase finale — mars 2026</td></tr>
+      <tr><td>AMM céréales / plein champ (Syngenta)</td><td style="color:#8faabf">Europe + UK</td><td class="b">🔄 Protocole d'accord signé</td></tr>
+      <tr><td>Homologation cosmétique Chine</td><td style="color:#8faabf">Chine</td><td class="b">🔄 En cours avec OBV</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><span class="ic">🤝</span> Partenaires commerciaux de premier rang</h3>
+    <p><strong>Koppert</strong> — leader mondial du biocontrôle : accord de distribution exclusif 5 ans pour vignes + cultures maraîchères dans <span class="hl">18 pays européens + États-Unis</span>. Koppert a même intégré le capital d'Amoéba (0,8 M€) — signal fort de conviction. Le lancement de la marque <strong>TIAGAN</strong> (remplacement d'AXPERA pour la vigne) au SIVAL 2026 confirme la dynamique commerciale.</p>
+    <p><strong>Syngenta</strong> — géant mondial agrochimique : protocole d'accord (MOU) pour les <span class="hlb">céréales et cultures de plein champ</span> en Europe et au Royaume-Uni. Un marché potentiel beaucoup plus large que la vigne.</p>
+    <p><strong>Oriental Beauty Valley (Chine)</strong> — accord pour l'homologation et la distribution de l'ingrédient cosmétique en Chine, avec accès mondial via la liste INCI pour les autres marchés.</p>
+    <p>Ces trois partenariats avec des acteurs mondiaux de référence <span class="hl">valident techniquement et commercialement la solution</span> d'Amoéba bien mieux que n'importe quel communiqué de la société.</p>
+  </div>
+
+  <!-- FINANCES — RISQUE TRÉSO -->
+  <div class="gap"></div>
+  <div class="slbl">Situation financière — le point de vigilance principal</div>
+
+  <div class="alert-warn">
+    <div class="at">⚠️ Vigilance trésorerie — point critique à surveiller</div>
+    <p>La trésorerie de <strong>4,7 M€ au 31/12/2025</strong> est faible pour une société avec un cash-burn de ~7 M€/an. La <strong>continuité d'exploitation est assurée uniquement jusqu'à fin 2026</strong>, grâce au soutien confirmé de l'actionnaire Nice & Green via des obligations simples (11,4 M€ de dette). Les capitaux propres sont <strong>négatifs à -5,4 M€</strong>.</p>
+    <p>Dès que les premières ventes commencent, cette équation change radicalement. Mais si le lancement commercial tarde ou si les premiers revenus sont décevants, <strong>une nouvelle levée de fonds sera nécessaire avant fin 2026</strong> — avec le risque de dilution associé. C'est le principal risque du dossier à court terme.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="ic">💰</span> Ce qui peut changer la donne rapidement</h3>
+    <p>Le modèle commercial avec Koppert est basé sur des <strong>royalties et un prix de cession</strong> de la matière active. Les premières commandes viticoles en Europe pourraient intervenir dès le début de la saison 2026 (avril-mai) une fois l'AMM française publiée. Aux US, la commercialisation via Koppert est déjà possible depuis l'AMM EPA d'octobre 2025.</p>
+    <ul class="ul">
+      <li>Un démarrage commercial en vigne EU pour la saison 2026 (printemps) = premiers revenus dès Q2 2026</li>
+      <li>L'AMM France déverrouille les 8 autres pays EU ciblés en cascade</li>
+      <li class="risk">Si l'AMM France prend du retard au-delà de juin 2026 → risque de trésorerie réel</li>
+      <li class="neu">Syngenta sur les céréales = potentiel de volume beaucoup plus large dès 2027</li>
+    </ul>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="gap"></div>
+  <div class="slbl">Calendrier — jalons clés 2026</div>
+  <div class="card">
+    <h3><span class="ic">📌</span> Roadmap commerciale 2026</h3>
+    <div class="tl">
+      <div class="tli">
+        <div class="tld"></div>
+        <div class="tldate">FÉV. 2026 ✅</div>
+        <div class="tllbl">Phase conclusive ANSES initiée <span class="tag tg">EN COURS</span></div>
+        <div class="tldesc">Phase de commentaires ouverte jusqu'au 6 mars 2026. Tous les couples culture/maladie jugés acceptables. Profil d'innocuité confirmé.</div>
+      </div>
+      <div class="tli">
+        <div class="tld"></div>
+        <div class="tldate">6 MARS 2026</div>
+        <div class="tllbl">Clôture phase de commentaires ANSES <span class="tag tw">J-8</span></div>
+        <div class="tldesc">Puis signature et publication officielle de l'AMM française — délai de quelques semaines. Aucun obstacle identifié selon Amoéba.</div>
+      </div>
+      <div class="tli">
+        <div class="tld"></div>
+        <div class="tldate">MARS-AVR. 2026</div>
+        <div class="tllbl">Publication AMM France (AXPERA/TIAGAN) <span class="tag tw">IMMINENT</span></div>
+        <div class="tldesc">Déverrouille la commercialisation en France + déclenche les procédures dans les 8 autres pays EU (Italie, Espagne, Allemagne, Portugal…).</div>
+      </div>
+      <div class="tli">
+        <div class="tld b"></div>
+        <div class="tldate">AVR.-JUIN 2026</div>
+        <div class="tllbl">Premières ventes viticoles saison 2026 <span class="tag tb">OBJECTIF</span></div>
+        <div class="tldesc">Lancement avec Koppert (marque TIAGAN) sur vigne EU + US (déjà autorisé). Premières commandes agricoles françaises et italiennes attendues d'urgence.</div>
+      </div>
+      <div class="tli">
+        <div class="tld b"></div>
+        <div class="tldate">2026</div>
+        <div class="tllbl">Premières ventes cosmétique (hors Chine) <span class="tag tg">ACCESSIBLE</span></div>
+        <div class="tldesc">L'ingrédient cosmétique est inscrit sur la liste INCI mondiale → commercialisable immédiatement en Europe et aux US, sans autre autorisation requise.</div>
+      </div>
+      <div class="tli">
+        <div class="tld w"></div>
+        <div class="tldate">FIN 2026</div>
+        <div class="tllbl">Horizon garanti de trésorerie (Nice & Green) <span class="tag tr">DATE LIMITE</span></div>
+        <div class="tldesc">Le soutien financier de Nice & Green court jusqu'à fin 2026. Si les premiers revenus ne couvrent pas le cash-burn, une levée de fonds sera nécessaire.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANALYSE TECHNIQUE -->
+  <div class="gap"></div>
+  <div class="slbl">Analyse technique — Graphique 1 semaine</div>
+  <div class="card">
+    <h3><span class="ic">📈</span> Configuration — cours 1,010 € · RSI 53,40</h3>
+    <p>Le graphique hebdomadaire montre une action qui a réalisé un <strong>pic violent vers 1,40 €+</strong> à mi-2025 suite aux annonces réglementaires, puis est revenue se consolider autour de <span class="hlw">1,00-1,10 €</span>. Le cours actuel de 1,010 € évolue en zone de support avec plusieurs niveaux à surveiller.</p>
+
+    <div style="margin:14px 0">
+      <div class="frow">
+        <div class="flvl">Résist.</div>
+        <div class="fprice" style="color:var(--warn)">1,096 €</div>
+        <div class="fbar"><div class="fbar-fill" style="width:75%;background:var(--warn)"></div></div>
+        <span class="ftag"><span class="tag tw">R1 proche</span></span>
+      </div>
+      <div class="frow" style="background:rgba(74,222,128,0.04);border-radius:6px;padding:7px 4px">
+        <div class="flvl" style="color:var(--accent)">Cours</div>
+        <div class="fprice" style="color:var(--accent)">1,010 €</div>
+        <div class="fbar"><div class="fbar-fill" style="width:60%;background:var(--accent)"></div></div>
+        <span class="ftag"><span class="tag tg">cours actuel</span></span>
+      </div>
+      <div class="frow">
+        <div class="flvl">Support 1</div>
+        <div class="fprice">0,848 €</div>
+        <div class="fbar"><div class="fbar-fill" style="width:35%;background:var(--accent2)"></div></div>
+        <span class="ftag"><span class="tag tb">S1</span></span>
+      </div>
+      <div class="frow">
+        <div class="flvl">Support 2</div>
+        <div class="fprice">0,609 €</div>
+        <div class="fbar"><div class="fbar-fill" style="width:15%;background:#475569"></div></div>
+        <span class="ftag"><span class="tag tp">S2 plancher</span></span>
+      </div>
+    </div>
+
+    <div style="background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.22);border-radius:8px;padding:14px 16px;margin:12px 0;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">✅ Signal technique neutre-positif — RSI hebdo 53,40</div>
+      <p style="color:#86efac;margin-bottom:6px;font-size:13.5px;">Le RSI (14) hebdomadaire à <strong style="color:#f0fdf4">53,40</strong> est en zone neutre-haussière. Il est ni survendu, ni suracheté — <strong style="color:#f0fdf4">la marge technique est importante dans les deux sens</strong>. Pas de signe de surchauffe.</p>
+      <p style="color:#86efac;margin-bottom:0;font-size:13.5px;">Le MACD Zéro Lag est légèrement positif. La consolidation actuelle autour de 1,00 € semble former une <strong style="color:#f0fdf4">base de rechargement</strong> avant un prochain mouvement directionnel lié aux catalyseurs réglementaires.</p>
+    </div>
+
+    <p>La <strong>résistance immédiate est à 1,096 €</strong> — son franchissement en weekly ouvrirait la voie vers le précédent plus haut (~1,40 €). Le <strong>support clé à ne pas casser est 0,848 €</strong>. Le cours actuel à 1,01 € offre techniquement un bon ratio risque/rendement pour un investissement progressif en anticipation de l'AMM France.</p>
+  </div>
+
+  <!-- PERSPECTIVES -->
+  <div class="gap"></div>
+  <div class="slbl">Perspectives CT / MT / LT</div>
+  <div class="pg">
+    <div class="pc">
+      <div class="hz" style="color:var(--accent)">🕐 CT · 0-3 mois</div>
+      <h4>Catalyseurs</h4>
+      <ul>
+        <li>Clôture phase commentaires ANSES (6 mars)</li>
+        <li>Publication AMM France AXPERA (mars-avril)</li>
+        <li>Premières commandes viticoles France/Italie</li>
+        <li>Démarrage campagne TIAGAN Koppert EU</li>
+        <li>AMM dérogatoires supplémentaires</li>
+      </ul>
+      <h4 style="margin-top:10px;color:var(--warn)">Risques CT</h4>
+      <ul>
+        <li>Retard AMM France > juin 2026</li>
+        <li>Saison viticole courte → faible volume S1</li>
+        <li>Pression trésorerie si revenus tardent</li>
+      </ul>
+    </div>
+    <div class="pc">
+      <div class="hz" style="color:var(--accent2)">📅 MT · 3-18 mois</div>
+      <h4>Moteurs</h4>
+      <ul>
+        <li>AMM cascade dans les 8 pays EU</li>
+        <li>Montée en puissance Koppert (US + EU)</li>
+        <li>Développement céréales avec Syngenta</li>
+        <li>Cosmétique : premières ventes EU/US/Chine</li>
+        <li>Extension d'autres cultures (arboriculture, pomme de terre…)</li>
+      </ul>
+      <h4 style="margin-top:10px;color:var(--warn)">Risques MT</h4>
+      <ul>
+        <li>Levée de fonds si tréso sous pression</li>
+        <li>Adoption terrain plus lente qu'attendu</li>
+        <li>Exécution industrielle (CDMO)</li>
+      </ul>
+    </div>
+    <div class="pc">
+      <div class="hz" style="color:var(--purple)">🔭 LT · 18 mois+</div>
+      <h4>Thèse haussière</h4>
+      <ul>
+        <li>Standard mondial du biocontrôle fongicide</li>
+        <li>Extension à de nombreuses cultures (bananes, céréales, gazons…)</li>
+        <li>Nouvelle génération de solutions (co-dev Syngenta)</li>
+        <li>Cosmétique : marché mondial de l'ingrédient naturel</li>
+        <li>Cible d'acquisition par un grand agrochimiste</li>
+      </ul>
+      <h4 style="margin-top:10px;color:var(--danger)">Risques LT</h4>
+      <ul>
+        <li>Concurrence d'autres biocontrôle fongique</li>
+        <li>Dilution si multiples levées de fonds</li>
+        <li>Volatilité du prix des matières/CDMO</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="gap"></div>
+  <div class="slbl">Mon avis personnel</div>
+  <div class="verdict">
+    <div class="vt">💬 Verdict</div>
+    <p>Amoéba est un dossier à <strong>fort potentiel mais avec des contraintes financières réelles à court terme</strong>. La société arrive à un moment charnière : après des années de R&D et de travail réglementaire, elle est à quelques semaines de son premier vrai feu vert commercial en France.</p>
+    <p>Ce qui me paraît sous-évalué par le marché :</p>
+    <ul class="ul" style="margin:8px 0">
+      <li>La <span class="hl">validation par Koppert et Syngenta</span> — deux géants du secteur ne signent pas des accords exclusifs sur une technologie non-prouvée</li>
+      <li>Le lancement de la marque <span class="hl">TIAGAN</span> par Koppert au SIVAL 2026 — c'est Koppert qui investit dans le marketing, pas Amoéba</li>
+      <li>L'AMM US déjà obtenue en octobre 2025 — <span class="hlb">commercialisation possible dès maintenant aux États-Unis</span></li>
+      <li>Le <span class="hl">segment cosmétique</span> commercialisable sans AMM en Europe et aux US — une source de revenus rapide et sous-estimée</li>
+    </ul>
+    <p><strong>Le risque principal est clair et bien identifié :</strong> avec seulement <span class="hlr">4,7 M€ de trésorerie</span> et un soutien Nice & Green limité à fin 2026, le timing est serré. Si les premières ventes tardent au-delà de l'été 2026, une levée de fonds sera inévitable et probablement dilutive. C'est le scénario à éviter.</p>
+    <div class="conclu">
+      🎯 En résumé : <strong>le risque/rendement est favorable si l'AMM France est publiée dans les prochaines semaines comme anticipé.</strong> RSI neutre à 53,40, bon support à 1,010 €, résistance à 1,096 €. <span style="color:var(--warn);font-weight:600">Catalyseur #1 : publication AMM France mars-avril 2026. Date limite de surveillance : fin juin 2026 (horizon trésorerie).</span>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;padding:12px;background:var(--surface);border-radius:8px;font-size:11.5px;color:var(--muted);text-align:center;border:1px solid var(--border)">
+    Sources : Communiqués Amoéba (fév. 2026, oct. 2025), GlobeNewswire, ActusNews, Lyon Entreprises · Analyse personnelle non professionnelle · Ne constitue pas un conseil en investissement · DYOR
+  </div>
+
+</div>
+</body>
+</html>
